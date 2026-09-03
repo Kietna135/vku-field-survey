@@ -1,0 +1,15 @@
+{
+    "short_name": "VKUSurvey",
+    "name": "VKU Field Survey PWA",
+    "icons": [
+        {
+            "src": "https://cdn-icons-png.flaticon.com/512/1484/1484831.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "./index.html",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "display": "standalone"
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VKU Field Survey PWA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-card">
+        <div class="header">
+            <div class="brand">
+                <span class="logo-icon">📋</span>
+                <h1>VKU Field Survey</h1>
+            </div>
+            <div id="status-bar" class="status-badge status-online">
+                <span class="status-dot"></span>
+                <span id="status-text">Online</span>
+            </div>
+        </div>
+
+        <form id="survey-form">
+            <div class="form-group">
+                <label for="interviewer">Người khảo sát</label>
+                <input type="text" id="interviewer" required placeholder="Nhập họ và tên...">
+            </div>
+
+            <div class="form-group">
+                <label for="topic">Chủ đề khảo sát</label>
+                <select id="topic" required>
+                    <option value="" disabled selected>-- Chọn khu vực --</option>
+                    <option value="Phòng học">Phòng học / Giảng đường</option>
+                    <option value="Ký túc xá">Ký túc xá</option>
+                    <option value="Khu thể thao">Sân thể thao / Nhà đa năng</option>
+                    <option value="Căng tin">Căng tin / Tiện ích</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="condition">Tình trạng ghi nhận</label>
+                <select id="condition" required>
+                    <option value="Tốt">🟢 Tốt / Bình thường</option>
+                    <option value="Cần bảo trì">🟡 Cần bảo trì</option>
+                    <option value="Hỏng hóc nghiêm trọng">🔴 Hỏng hóc nghiêm trọng</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Ghi chú chi tiết</label>
+                <textarea id="notes" rows="3" placeholder="Mô tả chi tiết tình trạng hiện trường..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                <span>Gửi khảo sát</span>
+            </button>
+        </form>
+
+        <div class="sync-card">
+            <div class="sync-info">
+                <span class="sync-title">Chờ đồng bộ</span>
+                <span class="sync-count" id="pending-count">0</span>
+            </div>
+            <button id="sync-btn" class="btn-secondary" onclick="syncData()">Đồng bộ ngay</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
