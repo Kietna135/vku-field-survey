@@ -1,7 +1,8 @@
 :root {
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
-    --bg-color: #f8fafc;
+    --primary-light: #eff6ff;
+    --bg-color: #f1f5f9;
     --card-bg: #ffffff;
     --text-main: #0f172a;
     --text-muted: #64748b;
@@ -12,7 +13,10 @@
     --offline-bg: #fee2e2;
     --offline-text: #991b1b;
     --offline-dot: #ef4444;
-    --radius: 12px;
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+    --radius: 16px;
+    --radius-sm: 10px;
 }
 
 * {
@@ -20,6 +24,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -35,10 +40,10 @@ body {
 .app-card {
     background: var(--card-bg);
     width: 100%;
-    max-width: 440px;
+    max-width: 480px;
     border-radius: var(--radius);
     padding: 24px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
     border: 1px solid var(--border-color);
 }
 
@@ -46,23 +51,43 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .logo-icon {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    background: var(--primary-light);
+    padding: 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--text-main);
+    line-height: 1.2;
+}
+
+.version-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    background: var(--primary-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 2px;
 }
 
 .status-badge {
@@ -73,6 +98,7 @@ h1 {
     border-radius: 999px;
     font-size: 0.75rem;
     font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .status-dot {
@@ -107,10 +133,14 @@ h1 {
 
 label {
     display: block;
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-main);
     margin-bottom: 6px;
+}
+
+.required {
+    color: #ef4444;
 }
 
 input,
@@ -120,7 +150,7 @@ textarea {
     padding: 10px 14px;
     font-size: 0.95rem;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background-color: #fff;
     color: var(--text-main);
     outline: none;
@@ -138,18 +168,155 @@ textarea {
     resize: vertical;
 }
 
+/* Action Buttons (Camera & GPS) */
+.camera-section,
+.geo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 11px 16px;
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    border: 1px dashed var(--primary-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    background-color: #dbeafe;
+}
+
+.btn-action:active {
+    transform: scale(0.98);
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+/* Photo Preview */
+.photo-preview-container {
+    margin-top: 8px;
+    background: #f8fafc;
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.preview-wrapper {
+    position: relative;
+    width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#photo-preview {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.btn-remove-photo {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-remove-photo:hover {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+.photo-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--success-text);
+}
+
+/* GPS Info Card */
+.geo-info-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 0.85rem;
+}
+
+.geo-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.geo-status.active {
+    color: var(--success-text);
+    font-weight: 600;
+}
+
+.geo-coords {
+    margin-top: 4px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    background: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Submit & Sync Buttons */
 .btn-primary {
     width: 100%;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px;
+    padding: 13px;
     font-size: 0.95rem;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
-    margin-top: 8px;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .btn-primary:hover {
@@ -160,11 +327,16 @@ textarea {
     transform: scale(0.98);
 }
 
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .sync-card {
-    margin-top: 24px;
+    margin-top: 20px;
     padding: 14px 16px;
     background-color: var(--bg-color);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -178,7 +350,7 @@ textarea {
 }
 
 .sync-title {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     font-weight: 500;
 }
@@ -196,14 +368,20 @@ textarea {
     background-color: #fff;
     color: var(--text-main);
     border: 1px solid var(--border-color);
-    padding: 6px 12px;
+    padding: 8px 14px;
     font-size: 0.85rem;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 }
 
 .btn-secondary:hover {
-    background-color: var(--border-color);
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
