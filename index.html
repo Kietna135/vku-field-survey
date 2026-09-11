@@ -3,47 +3,63 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VKU Field Survey PWA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VKU Field Survey - Ứng dụng Khảo sát Hiện trường</title>
+    
+    <!-- Liên kết stylesheet và cấu hình PWA -->
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
+    
+    <!-- Nhúng font chữ Inter từ Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Khung giao diện chính của ứng dụng khảo sát -->
     <div class="app-card">
-        <div class="header">
+        <!-- Phần đầu trang: Logo thương hiệu & Trạng thái kết nối mạng -->
+        <header class="header">
             <div class="brand">
                 <span class="logo-icon">📋</span>
-                <h1>VKU Field Survey</h1>
+                <div>
+                    <h1>VKU Field Survey</h1>
+                    <span class="version-tag">Capacitor Native</span>
+                </div>
             </div>
+            <!-- Huy hiệu hiển thị trạng thái mạng Online / Offline -->
             <div id="status-bar" class="status-badge status-online">
                 <span class="status-dot"></span>
                 <span id="status-text">Online</span>
             </div>
-        </div>
+        </header>
 
+        <!-- Form nhập thông tin khảo sát hiện trường -->
         <form id="survey-form">
+            <!-- Trường 1: Người thực hiện khảo sát -->
             <div class="form-group">
-                <label for="interviewer">Người khảo sát</label>
+                <label for="interviewer">Người khảo sát <span class="required">*</span></label>
                 <input type="text" id="interviewer" required placeholder="Nhập họ và tên...">
             </div>
 
+            <!-- Trường 2: Khu vực cần khảo sát trong khuôn viên VKU -->
             <div class="form-group">
-                <label for="topic">Chủ đề khảo sát</label>
+                <label for="topic">Khu vực khảo sát <span class="required">*</span></label>
                 <select id="topic" required>
                     <option value="" disabled selected>-- Chọn khu vực --</option>
-                    <option value="Phòng học">Phòng học / Giảng đường</option>
+                    <option value="Phòng học / Giảng đường">Phòng học / Giảng đường</option>
                     <option value="Ký túc xá">Ký túc xá</option>
                     <option value="Khu thể thao">Sân thể thao / Nhà đa năng</option>
-                    <option value="Căng tin">Căng tin / Tiện ích</option>
+                    <option value="Căng tin / Tiện ích">Căng tin / Tiện ích</option>
+                    <option value="Thư viện / Không gian tự học">Thư viện / Không gian tự học</option>
+                    <option value="Khuôn viên / Bãi xe">Khuôn viên / Bãi xe</option>
                 </select>
             </div>
 
+            <!-- Trường 3: Đánh giá tình trạng hiện trường -->
             <div class="form-group">
-                <label for="condition">Tình trạng ghi nhận</label>
+                <label for="condition">Tình trạng ghi nhận <span class="required">*</span></label>
                 <select id="condition" required>
                     <option value="Tốt">🟢 Tốt / Bình thường</option>
                     <option value="Cần bảo trì">🟡 Cần bảo trì</option>
@@ -51,26 +67,75 @@
                 </select>
             </div>
 
+            <!-- KHU VỰC 4: CHỤP ẢNH HIỆN TRƯỜNG (Sử dụng Capacitor Camera Plugin) -->
+            <div class="form-group">
+                <label>Ảnh hiện trường</label>
+                <div class="camera-section">
+                    <!-- Nút kích hoạt Camera phần cứng thiết bị -->
+                    <button type="button" id="btn-camera" class="btn-action">
+                        <span class="btn-icon">📷</span>
+                        <span>Chụp ảnh hiện trường</span>
+                    </button>
+                    
+                    <!-- Khung xem trước ảnh đã chụp (mặc định ẩn khi chưa có ảnh) -->
+                    <div id="photo-preview-container" class="photo-preview-container hidden">
+                        <div class="preview-wrapper">
+                            <img id="photo-preview" src="" alt="Ảnh hiện trường preview">
+                            <button type="button" id="btn-remove-photo" class="btn-remove-photo" title="Xóa ảnh">&times;</button>
+                        </div>
+                        <span class="photo-tag">✅ Đã chụp ảnh thành công</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KHU VỰC 5: TỌA ĐỘ GPS HIỆN TRƯỜNG (Sử dụng Capacitor Geolocation Plugin) -->
+            <div class="form-group">
+                <label>Tọa độ GPS hiện trường</label>
+                <div class="geo-section">
+                    <!-- Khung hiển thị trạng thái và tọa độ GPS thu được -->
+                    <div class="geo-info-card" id="geo-info-card">
+                        <div class="geo-status">
+                            <span class="geo-icon">📍</span>
+                            <span id="geo-status-text">Chưa lấy tọa độ</span>
+                        </div>
+                        <div id="geo-coords" class="geo-coords hidden">
+                            <span id="geo-coords-text">--</span>
+                        </div>
+                    </div>
+                    <!-- Nút lấy tọa độ GPS từ vệ tinh -->
+                    <button type="button" id="btn-get-location" class="btn-action">
+                        <span class="btn-icon">🛰️</span>
+                        <span>Lấy vị trí GPS</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trường 6: Ghi chú mô tả chi tiết -->
             <div class="form-group">
                 <label for="notes">Ghi chú chi tiết</label>
                 <textarea id="notes" rows="3" placeholder="Mô tả chi tiết tình trạng hiện trường..."></textarea>
             </div>
 
-            <button type="submit" class="btn-primary">
+            <!-- Nút gửi form khảo sát -->
+            <button type="submit" id="submit-btn" class="btn-primary">
                 <span>Gửi khảo sát</span>
             </button>
         </form>
 
+        <!-- KHU VỰC 6: ĐỒNG BỘ DỮ LIỆU OFFLINE -->
         <div class="sync-card">
             <div class="sync-info">
-                <span class="sync-title">Chờ đồng bộ</span>
+                <span class="sync-title">Chờ đồng bộ (Offline)</span>
+                <!-- Số lượng bản ghi lưu tạm offline trên máy -->
                 <span class="sync-count" id="pending-count">0</span>
             </div>
-            <button id="sync-btn" class="btn-secondary" onclick="syncData()">Đồng bộ ngay</button>
+            <!-- Nút bấm đồng bộ thủ công khi có mạng -->
+            <button id="sync-btn" class="btn-secondary" type="button">Đồng bộ ngay</button>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- Script xử lý logic chính của ứng dụng -->
+    <script type="module" src="app.js"></script>
 </body>
 
 </html>
