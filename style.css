@@ -1,32 +1,48 @@
+/* =============================================================================
+   VKU FIELD SURVEY - HỆ THỐNG GIAO DIỆN (CSS STYLESHEET)
+   Thiết kế giao diện chuẩn Mobile-First, Card UI, Tương thích Capacitor Native
+   ============================================================================= */
+
+/* Biến màu sắc và cấu hình giao diện dùng chung */
 :root {
-    --primary-color: #2563eb;
-    --primary-hover: #1d4ed8;
-    --primary-light: #eff6ff;
-    --bg-color: #f1f5f9;
-    --card-bg: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
+    --primary-color: #2563eb;      /* Màu xanh chủ đạo */
+    --primary-hover: #1d4ed8;      /* Màu hover nút bấm chính */
+    --primary-light: #eff6ff;      /* Màu nền xanh nhạt cho icon/badge */
+    --bg-color: #f1f5f9;           /* Màu nền toàn ứng dụng */
+    --card-bg: #ffffff;            /* Màu nền thẻ card */
+    --text-main: #0f172a;          /* Màu chữ chính */
+    --text-muted: #64748b;         /* Màu chữ phụ / mô tả */
+    --border-color: #e2e8f0;       /* Màu đường viền khung */
+    
+    /* Trạng thái Online / Thành công */
     --success-bg: #dcfce7;
     --success-text: #166534;
     --success-dot: #22c55e;
+    
+    /* Trạng thái Offline / Báo lỗi */
     --offline-bg: #fee2e2;
     --offline-text: #991b1b;
     --offline-dot: #ef4444;
+    
+    /* Trạng thái Cảnh báo / Bảo trì */
     --warning-bg: #fef3c7;
     --warning-text: #92400e;
+    
+    /* Bán kính bo góc */
     --radius: 16px;
     --radius-sm: 10px;
 }
 
+/* Reset CSS cơ bản cho toàn bộ phần tử */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent; /* Loại bỏ hiệu ứng xám khi chạm trên mobile */
 }
 
+/* Cấu trúc thân trang chính */
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
@@ -37,6 +53,7 @@ body {
     padding: 16px;
 }
 
+/* Thẻ card trung tâm chứa toàn bộ ứng dụng */
 .app-card {
     background: var(--card-bg);
     width: 100%;
@@ -47,6 +64,7 @@ body {
     border: 1px solid var(--border-color);
 }
 
+/* Phần Header: Brand và trạng thái Online/Offline */
 .header {
     display: flex;
     justify-content: space-between;
@@ -90,6 +108,7 @@ h1 {
     margin-top: 2px;
 }
 
+/* Huy hiệu hiển thị trạng thái kết nối */
 .status-badge {
     display: flex;
     align-items: center;
@@ -127,6 +146,7 @@ h1 {
     box-shadow: 0 0 8px var(--offline-dot);
 }
 
+/* Cấu trúc các nhóm trường trong Form */
 .form-group {
     margin-bottom: 16px;
 }
@@ -140,9 +160,10 @@ label {
 }
 
 .required {
-    color: #ef4444;
+    color: #ef4444; /* Dấu sao đỏ cho các trường bắt buộc */
 }
 
+/* Định dạng các ô nhập liệu input, select, textarea */
 input,
 select,
 textarea {
@@ -168,7 +189,9 @@ textarea {
     resize: vertical;
 }
 
-/* Action Buttons (Camera & GPS) */
+/* =============================================================================
+   CÁC NÚT THAO TÁC PHẦN CỨNG (CAMERA VÀ GPS)
+   ============================================================================= */
 .camera-section,
 .geo-section {
     display: flex;
@@ -205,7 +228,9 @@ textarea {
     font-size: 1.1rem;
 }
 
-/* Photo Preview */
+/* =============================================================================
+   KHUNG XEM TRƯỚC ẢNH CHỤP HIỆN TRƯỜNG (PHOTO PREVIEW)
+   ============================================================================= */
 .photo-preview-container {
     margin-top: 8px;
     background: #f8fafc;
@@ -237,6 +262,7 @@ textarea {
     border-radius: 8px;
 }
 
+/* Nút xóa ảnh chụp nhanh góc trên bên phải */
 .btn-remove-photo {
     position: absolute;
     top: 6px;
@@ -266,7 +292,9 @@ textarea {
     color: var(--success-text);
 }
 
-/* GPS Info Card */
+/* =============================================================================
+   KHUNG HIỂN THỊ TỌA ĐỘ GPS (GPS INFO CARD)
+   ============================================================================= */
 .geo-info-card {
     background: #f8fafc;
     border: 1px solid var(--border-color);
@@ -299,11 +327,14 @@ textarea {
     border: 1px solid #e2e8f0;
 }
 
+/* Class tiện ích ẩn phần tử */
 .hidden {
     display: none !important;
 }
 
-/* Submit & Sync Buttons */
+/* =============================================================================
+   NÚT SUBMIT VÀ KHU VỰC ĐỒNG BỘ DỮ LIỆU OFFLINE
+   ============================================================================= */
 .btn-primary {
     width: 100%;
     background-color: var(--primary-color);
@@ -332,6 +363,7 @@ textarea {
     cursor: not-allowed;
 }
 
+/* Khung hiển thị số lượng bản ghi cần đồng bộ */
 .sync-card {
     margin-top: 20px;
     padding: 14px 16px;
